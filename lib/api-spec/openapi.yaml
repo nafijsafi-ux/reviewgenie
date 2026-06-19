@@ -3,13 +3,15 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: ReviewGenie API - AI-powered review reply generator
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: replies
+    description: AI reply generation
 paths:
   /healthz:
     get:
@@ -24,6 +26,69 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /replies/generate:
+    post:
+      operationId: generateReply
+      tags: [replies]
+      summary: Generate AI reply for a review
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReplyRequest"
+      responses:
+        "200":
+          description: Generated reply
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReplyResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /replies/detect-sentiment:
+    post:
+      operationId: detectSentiment
+      tags: [replies]
+      summary: Detect sentiment and suggest tone for a review
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SentimentRequest"
+      responses:
+        "200":
+          description: Detected sentiment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SentimentResponse"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +99,73 @@ components:
       required:
         - status
 
+    ReplyRequest:
+      type: object
+      required:
+        - reviewText
+        - tone
+      properties:
+        reviewText:
+          type: string
+          minLength: 1
+        tone:
+          type: string
+          enum: [Apologetic, Grateful, Professional, Friendly, Formal]
+        businessName:
+          type: ["string", "null"]
+        platform:
+          type: ["string", "null"]
+          enum: [Google, Facebook, null]
+        starRating:
+          type: ["integer", "null"]
+
+    ReplyResponse:
+      type: object
+      required:
+        - reply
+        - tone
+        - sentiment
+        - starRating
+      properties:
+        reply:
+          type: string
+        tone:
+          type: string
+        sentiment:
+          type: string
+          enum: [positive, neutral, negative]
+        starRating:
+          type: integer
+
+    SentimentRequest:
+      type: object
+      required:
+        - reviewText
+      properties:
+        reviewText:
+          type: string
+          minLength: 1
+
+    SentimentResponse:
+      type: object
+      required:
+        - sentiment
+        - suggestedTone
+        - starRating
+      properties:
+        sentiment:
+          type: string
+          enum: [positive, neutral, negative]
+        suggestedTone:
+          type: string
+          enum: [Apologetic, Grateful, Professional, Friendly, Formal]
+        starRating:
+          type: integer
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
