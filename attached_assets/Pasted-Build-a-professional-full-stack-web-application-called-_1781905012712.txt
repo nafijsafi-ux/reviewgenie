@@ -1,0 +1,42 @@
+Build a professional full-stack web application called "ReviewGenie" - an AI-Powered Review Reply Generator for businesses that struggle to respond to Google and Facebook reviews professionally and quickly.
+
+TECH STACK:
+- Frontend: React + TypeScript + Tailwind CSS + Shadcn UI + Framer Motion
+- Backend: Node.js + Express
+- AI: Groq API, model "llama-3.3-70b-versatile" (current, active, free-tier model — do not use any deprecated model)
+- Charts: Recharts
+- Data: localStorage for history and business profile
+- Routing: Wouter
+- Data fetching: TanStack React Query
+- Font: Plus Jakarta Sans from Google Fonts
+- Default theme: DARK MODE as default (force dark class on html element on load)
+- Accent color: warm amber/gold (ties into the star-rating visual theme of reviews)
+
+---
+
+FILE STRUCTURE REQUIREMENT (keep this clean from the start):
+- All backend route logic lives in a routes/ folder, organized by feature (routes/reply.ts, routes/health.ts)
+- routes/index.ts combines all individual routers into one and exports it
+- app.ts sets up Express, middleware (cors, json), and mounts the combined router at /api
+- index.ts (root) ONLY contains server startup code (app.listen) — nothing else, under 5 lines
+
+---
+
+VISUAL DESIGN REQUIREMENTS:
+- Dark mode by default, Plus Jakarta Sans font throughout
+- Generator page: subtle dot-grid pattern background behind a soft radial amber gradient hero section
+- Headings use a subtle gradient text effect
+- Generate button has an amber-to-orange gradient background with a soft glow shadow and slight scale-up on hover
+- A thin animated loading bar fixed to the top of the screen during any AI request
+- Sentiment badge uses color coding: green for positive, amber for neutral/mixed, red for negative
+- Star rating visual (1-5 stars) shown as a filled/outline star icon row wherever sentiment is displayed
+
+---
+
+PAGES (5 total):
+
+1. GENERATOR PAGE (home):
+- Large textarea: "Paste the customer review here..."
+- A "Detect Sentiment" toggle that is ON by default — when ON, AI automatically analyzes the review and selects the best-fit tone before generating (shown as an animated badge: "Detected: Negative — switching to Apologetic tone")
+- A manual Tone selector (dropdown) the user can override: Apologetic, Grateful, Professional, Friendly, Formal — shown disabled/grayed out when auto-detect is ON, becomes editable when user toggles auto-detect OFF
+- Business Name field (saved to a simple business profile in
