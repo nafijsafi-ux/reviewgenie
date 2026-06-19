@@ -293,17 +293,17 @@ export default function Home() {
                   <div className="grid grid-cols-2 gap-2">
                     <Button 
                       variant={platform === "Google" ? "default" : "outline"} 
-                      className={cn("w-full justify-start", platform === "Google" && "bg-blue-600 hover:bg-blue-700 text-white")}
+                      className={cn("w-full justify-center px-2 text-sm", platform === "Google" && "bg-blue-600 hover:bg-blue-700 text-white")}
                       onClick={() => setPlatform("Google")}
                     >
-                      <SiGoogle className="mr-2" /> Google
+                      <SiGoogle className="mr-1.5 shrink-0" /> Google
                     </Button>
                     <Button 
                       variant={platform === "Facebook" ? "default" : "outline"} 
-                      className={cn("w-full justify-start", platform === "Facebook" && "bg-blue-500 hover:bg-blue-600 text-white")}
+                      className={cn("w-full justify-center px-2 text-sm", platform === "Facebook" && "bg-blue-500 hover:bg-blue-600 text-white")}
                       onClick={() => setPlatform("Facebook")}
                     >
-                      <SiFacebook className="mr-2" /> Facebook
+                      <SiFacebook className="mr-1.5 shrink-0" /> Facebook
                     </Button>
                   </div>
                   <Button 
