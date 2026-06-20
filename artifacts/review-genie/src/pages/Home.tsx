@@ -133,8 +133,7 @@ export default function Home() {
         onError: (err) => {
           toast({
             title: "Generation failed",
-            description:
-              err.response?.data?.error || err.error || "Unknown error",
+            description: err.data?.error || err.message || "Unknown error",
             variant: "destructive",
           });
         },
