@@ -1,0 +1,4 @@
+{
+  "buildCommand": "pnpm install && pnpm --filter @workspace/review-genie run build",
+  "outputDirectory": "artifacts/review-genie/dist/public"
+}
